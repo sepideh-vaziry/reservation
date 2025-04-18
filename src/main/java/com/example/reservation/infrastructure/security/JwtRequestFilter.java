@@ -1,0 +1,73 @@
+package com.example.reservation.infrastructure.security;
+
+import com.example.reservation.infrastructure.persistence.entity.UserEntity;
+import com.example.reservation.infrastructure.persistence.repository.UserRepository;
+import com.example.reservation.infrastructure.security.JwtTokenService.TokenInfo;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class JwtRequestFilter extends OncePerRequestFilter {
+
+  private static final String INTERNAL_AUTHORIZATION_HEADER_KEY = "X-Internal-Authorization";
+
+  private final JwtTokenService jwtTokenService;
+  private final UserRepository userRepository;
+
+  @Override
+  protected void doFilterInternal(
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain
+  ) throws ServletException, IOException {
+    String internalJwtToken = request.getHeader(INTERNAL_AUTHORIZATION_HEADER_KEY);
+
+    if (internalJwtToken != null) {
+      TokenInfo tokenInfo = jwtTokenService.getTokenInfo(internalJwtToken)
+          .orElse(null);
+
+      boolean isTokenInfoComplete = tokenInfo != null && tokenInfo.getUsername() != null;
+      boolean isTokenValid = isTokenInfoComplete && tokenInfo.isValidAsAnAccess();
+
+      if (isTokenValid && SecurityContextHolder.getContext().getAuthentication() == null) {
+        userRepository.findByUsername(tokenInfo.getUsername())
+            .ifPresent(user -> checkAuthenticationAndFillSecurityContext(request, user));
+
+      }
+
+    }
+
+    filterChain.doFilter(request, response);
+  }
+
+  private void checkAuthenticationAndFillSecurityContext(
+      HttpServletRequest request,
+      UserEntity user
+  ) {
+    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+        user,
+        null,
+        user.getAuthorities()
+    );
+
+    usernamePasswordAuthenticationToken.setDetails(
+        new WebAuthenticationDetailsSource().buildDetails(request)
+    );
+
+    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+  }
+
+}

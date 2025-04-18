@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+  <changeSet id="Create-User" author="Sepideh Vaziry">
+    <sql>
+
+      CREATE TABLE users
+      (
+        id         BIGINT AUTO_INCREMENT NOT NULL,
+        username   VARCHAR(255)          NOT NULL UNIQUE,
+        email      VARCHAR(255)          NOT NULL UNIQUE,
+        password   VARCHAR(255)          NOT NULL,
+        created_at datetime(3)           NULL,
+        CONSTRAINT pk_users PRIMARY KEY (id)
+      );
+
+      INSERT INTO users (username, email, password) VALUES ('user1', 'johndoe@example.com', 'hashed_password_123');
+      INSERT INTO users (username, email, password) VALUES ('user2', 'janedoe@example.com', 'hashed_password_456');
+      INSERT INTO users (username, email, password) VALUES ('user3', 'user123@example.com', 'hashed_password_789');
+
+    </sql>
+  </changeSet>
+
+  <changeSet id="Create-Available-Slot" author="Sepideh Vaziry">
+    <sql>
+
+      CREATE TABLE available_slots
+      (
+        id          BIGINT AUTO_INCREMENT NOT NULL,
+        start_time  datetime(3)           NULL,
+        end_time    datetime(3)           NULL,
+        is_reserved BIT(1)                NULL DEFAULT FALSE,
+        CONSTRAINT pk_available_slots PRIMARY KEY (id)
+      );
+
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 09:00:00', '2024-12-29 10:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 10:00:00', '2024-12-29 11:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 11:00:00', '2024-12-29 12:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 12:00:00', '2024-12-29 13:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 13:00:00', '2024-12-29 14:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 14:00:00', '2024-12-29 15:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 15:00:00', '2024-12-29 16:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-29 16:00:00', '2024-12-29 17:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-30 09:00:00', '2024-12-30 10:00:00', FALSE);
+      INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
+        ('2024-12-30 10:00:00', '2024-12-30 11:00:00', FALSE);
+
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>
