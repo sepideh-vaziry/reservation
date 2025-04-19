@@ -37,25 +37,45 @@
       );
 
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 09:00:00', '2024-12-29 10:00:00', FALSE);
+        ('2025-12-29 09:00:00', '2025-12-29 10:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 10:00:00', '2024-12-29 11:00:00', FALSE);
+        ('2025-12-29 10:00:00', '2025-12-29 11:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 11:00:00', '2024-12-29 12:00:00', FALSE);
+        ('2025-12-29 11:00:00', '2025-12-29 12:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 12:00:00', '2024-12-29 13:00:00', FALSE);
+        ('2025-12-29 12:00:00', '2025-12-29 13:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 13:00:00', '2024-12-29 14:00:00', FALSE);
+        ('2025-12-29 13:00:00', '2025-12-29 14:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 14:00:00', '2024-12-29 15:00:00', FALSE);
+        ('2025-12-29 14:00:00', '2025-12-29 15:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 15:00:00', '2024-12-29 16:00:00', FALSE);
+        ('2025-12-29 15:00:00', '2025-12-29 16:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-29 16:00:00', '2024-12-29 17:00:00', FALSE);
+        ('2025-12-29 16:00:00', '2025-12-29 17:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-30 09:00:00', '2024-12-30 10:00:00', FALSE);
+        ('2025-12-30 09:00:00', '2025-12-30 10:00:00', FALSE);
       INSERT INTO available_slots (start_time, end_time, is_reserved) VALUES
-        ('2024-12-30 10:00:00', '2024-12-30 11:00:00', FALSE);
+        ('2025-12-30 10:00:00', '2025-12-30 11:00:00', FALSE);
+
+    </sql>
+  </changeSet>
+
+  <changeSet id="Create-User-Reservation" author="Sepideh Vaziry">
+    <sql>
+
+      CREATE TABLE user_reservations
+      (
+        id                BIGINT AUTO_INCREMENT NOT NULL,
+        user_id           BIGINT                NULL,
+        available_slot_id BIGINT                NULL,
+        CONSTRAINT pk_user_reservations PRIMARY KEY (id)
+      );
+
+      ALTER TABLE user_reservations
+        ADD CONSTRAINT fk_user_reservations_on_availableslotid FOREIGN KEY (available_slot_id) REFERENCES available_slots (id);
+
+      ALTER TABLE user_reservations
+        ADD CONSTRAINT fk_user_reservations_on_userid FOREIGN KEY (user_id) REFERENCES users (id);
 
     </sql>
   </changeSet>

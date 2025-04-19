@@ -93,15 +93,13 @@ public class WebSecurityConfig {
                 "/css/**",
                 "/js/**",
                 "/img/**",
-                "/exchange/v3/api-docs/**",
-                "/exchange/v2/api-docs/**",
-                "/exchange/swagger-resources/**",
-                "/exchange/swagger-ui/**",
-                "/exchange/swagger-ui.html",
+                "/v3/api-docs/**",
+                "/v2/api-docs/**",
+                "/swagger-resources/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
                 "/actuator/**",
-                "/api/v1/exchange/assets/**",
-                "/api/v1/exchange/markets/**",
-                "/api/v1/exchange/orders/preview"
+                "/api/v1/reservations/**"
             )
             .permitAll()
             .anyRequest()
