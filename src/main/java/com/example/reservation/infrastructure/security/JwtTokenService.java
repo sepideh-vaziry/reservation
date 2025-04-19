@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class JwtTokenService {
 
     private static final String KEY_USERNAME = "username";
-    private static final String KEY_FINGERPRINT = "fingerprint";
     private static final String KEY_TOKEN_TYPE = "token_type";
     private static final String TOKEN_TYPE_ACCESS = "access";
     private static final String TOKEN_TYPE_REFRESH = "refresh";
@@ -35,7 +34,7 @@ public class JwtTokenService {
 
     private Algorithm algorithm = null;
 
-    public String generateToken(String username, String fingerprint) {
+    public String generateToken(String username) {
         Instant expiredAt = ZonedDateTime.now()
             .plusMinutes(tokenValidityInMinutes)
             .toInstant();
@@ -43,13 +42,12 @@ public class JwtTokenService {
         return JWT.create()
             .withIssuer(ISSUER)
             .withClaim(KEY_USERNAME, username)
-            .withClaim(KEY_FINGERPRINT, fingerprint)
             .withClaim(KEY_TOKEN_TYPE, TOKEN_TYPE_ACCESS)
             .withExpiresAt(expiredAt)
             .sign(getAlgorithm());
     }
 
-    public String generateRefreshToken(String username, String fingerprint) {
+    public String generateRefreshToken(String username) {
         Instant expiredAt = ZonedDateTime.now()
             .plusMinutes(refreshTokenValidityInMinutes)
             .toInstant();
@@ -57,7 +55,6 @@ public class JwtTokenService {
         return JWT.create()
             .withIssuer(ISSUER)
             .withClaim(KEY_USERNAME, username)
-            .withClaim(KEY_FINGERPRINT, fingerprint)
             .withClaim(KEY_TOKEN_TYPE, TOKEN_TYPE_REFRESH)
             .withExpiresAt(expiredAt)
             .sign(getAlgorithm());
@@ -72,7 +69,6 @@ public class JwtTokenService {
 
             TokenInfo tokenInfo = TokenInfo.builder()
                 .username(decode.getClaim(KEY_USERNAME).asString())
-                .fingerprint(decode.getClaim(KEY_FINGERPRINT).asString())
                 .tokenType(decode.getClaim(KEY_TOKEN_TYPE).asString())
                 .expiresAt(decode.getExpiresAt())
                 .build();
@@ -96,7 +92,6 @@ public class JwtTokenService {
     @AllArgsConstructor
     public static class TokenInfo {
         private String username;
-        private String fingerprint;
         private String tokenType;
         private Date expiresAt;
 
