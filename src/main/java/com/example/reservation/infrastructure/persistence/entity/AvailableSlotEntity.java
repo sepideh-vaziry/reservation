@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,12 @@ import lombok.Setter;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "available_slots")
+@Table(
+    name = "available_slots",
+    indexes = {
+        @Index(name = "idx_available_slot_on_starttime_isresereved", columnList = "startTime, isReserved")
+    }
+)
 public class AvailableSlotEntity {
 
   @Id

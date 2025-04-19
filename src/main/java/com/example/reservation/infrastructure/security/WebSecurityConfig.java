@@ -99,7 +99,7 @@ public class WebSecurityConfig {
                 "/swagger-ui/**",
                 "/swagger-ui.html",
                 "/actuator/**",
-                "/api/v1/reservations/**"
+                "/api/v1/user/authentication"
             )
             .permitAll()
             .anyRequest()
