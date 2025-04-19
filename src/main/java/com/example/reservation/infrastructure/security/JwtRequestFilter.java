@@ -1,5 +1,6 @@
 package com.example.reservation.infrastructure.security;
 
+import com.example.reservation.domain.error.Error.UnauthorizedException;
 import com.example.reservation.infrastructure.persistence.entity.UserEntity;
 import com.example.reservation.infrastructure.persistence.repository.UserRepository;
 import com.example.reservation.infrastructure.security.JwtTokenService.TokenInfo;
@@ -22,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-  private static final String INTERNAL_AUTHORIZATION_HEADER_KEY = "X-Internal-Authorization";
+  private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
 
   private final JwtTokenService jwtTokenService;
   private final UserRepository userRepository;
@@ -33,10 +34,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
-    String internalJwtToken = request.getHeader(INTERNAL_AUTHORIZATION_HEADER_KEY);
+    String jwtToken = extractToken(request);
 
-    if (internalJwtToken != null) {
-      TokenInfo tokenInfo = jwtTokenService.getTokenInfo(internalJwtToken)
+    if (jwtToken != null) {
+      TokenInfo tokenInfo = jwtTokenService.getTokenInfo(jwtToken)
           .orElse(null);
 
       boolean isTokenInfoComplete = tokenInfo != null && tokenInfo.getUsername() != null;
@@ -51,6 +52,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
+  }
+
+  private String extractToken(HttpServletRequest request) {
+    String jwtToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
+
+    if (jwtToken == null) {
+      return null;
+    }
+
+    String[] splittedToken = jwtToken.split("\\s+");
+    if (splittedToken.length < 2) {
+      throw new UnauthorizedException();
+    }
+
+    return splittedToken[1];
   }
 
   private void checkAuthenticationAndFillSecurityContext(
