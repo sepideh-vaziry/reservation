@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+general:
+  default_locale: en
+
 spring:
   application:
     name: reservation
