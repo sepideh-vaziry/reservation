@@ -17,9 +17,9 @@
         CONSTRAINT pk_users PRIMARY KEY (id)
       );
 
-      INSERT INTO users (username, email, password) VALUES ('user1', 'johndoe@example.com', 'hashed_password_123');
-      INSERT INTO users (username, email, password) VALUES ('user2', 'janedoe@example.com', 'hashed_password_456');
-      INSERT INTO users (username, email, password) VALUES ('user3', 'user123@example.com', 'hashed_password_789');
+      INSERT INTO users (username, email, password) VALUES ('user1', 'johndoe@example.com', '$2a$10$EhQYLNc.A3PndcsvdbFn1ub1Bsu8zlbDnfT..ZgysWTbU.Z/xnR.K');
+      INSERT INTO users (username, email, password) VALUES ('user2', 'janedoe@example.com', '$2a$10$Let6puBVIodi/0AI7KUhruW0ZbVGL5Xjze10wPKEtlJtk3SPTGWvi');
+      INSERT INTO users (username, email, password) VALUES ('user3', 'user123@example.com', '$2a$10$xYCpuQe.vvuohSEswG6iQOvkZF.kYqYThKtSjNyPBlXvs.tE//ibC');
 
     </sql>
   </changeSet>

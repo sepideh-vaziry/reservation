@@ -51,6 +51,11 @@ jwt:
   token_validity_in_minutes: 120  # 2 * 60
   refresh_token_validity_in_minutes: 1440 # 24 * 60
 
+security:
+  password_encrypt_algorithm: HMAC
+  password_pepper: y@wfqiyAjCh3iMcdsDa@87VpSS28$WY4
+  password_salt: dvpdsjVDS35!vovpMz
+
 springdoc:
   api-docs:
     enabled: true
