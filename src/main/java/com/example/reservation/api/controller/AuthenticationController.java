@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Authentication")
-@RequestMapping("/api/v1/user/authentication")
+@RequestMapping("/api/v1/users/authentication")
 public class AuthenticationController extends AbstractController {
 
   private final AuthenticationUseCase authenticationUseCase;
