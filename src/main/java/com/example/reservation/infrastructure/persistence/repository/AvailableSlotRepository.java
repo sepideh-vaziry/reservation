@@ -19,7 +19,13 @@ public interface AvailableSlotRepository extends JpaRepository<AvailableSlotEnti
 
   @Modifying
   @Query("UPDATE AvailableSlotEntity a SET a.isReserved = true WHERE a.id = :id")
-  public void reserveAvailableSlot(
+  void reserveAvailableSlot(
+      @Param("id") Long id
+  );
+
+  @Modifying
+  @Query("UPDATE AvailableSlotEntity a SET a.isReserved = false WHERE a.id = :id")
+  void cancelAvailableSlotReservation(
       @Param("id") Long id
   );
 

@@ -24,7 +24,7 @@ public class ReservationCreationUseCase {
       propagation = Propagation.REQUIRES_NEW
   )
   public UserReservation reserveNearestAvailableSlot(Long userId) {
-    AvailableSlot availableSlot = availableSlotRetrievalService.getNearestAvailableAndLock();
+    AvailableSlot availableSlot = availableSlotRetrievalService.getNearestAvailableSlotAndLock();
 
     UserReservation userReservation = userReservationCreationService.reserve(
         userId,
