@@ -22,4 +22,13 @@ public class AvailableSlotModificationServiceImpl implements AvailableSlotModifi
   public void reservedAvailableSlot(Long id) {
     availableSlotRepository.reserveAvailableSlot(id);
   }
+
+  @Override
+  @Transactional(
+      isolation = Isolation.READ_COMMITTED,
+      propagation = Propagation.REQUIRED
+  )
+  public void cancelAvailableSlotReservation(Long id) {
+    availableSlotRepository.cancelAvailableSlotReservation(id);
+  }
 }

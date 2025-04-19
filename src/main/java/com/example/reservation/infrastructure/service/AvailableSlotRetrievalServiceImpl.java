@@ -25,7 +25,7 @@ public class AvailableSlotRetrievalServiceImpl implements AvailableSlotRetrieval
       isolation = Isolation.READ_COMMITTED,
       propagation = Propagation.REQUIRED
   )
-  public AvailableSlot getNearestAvailableAndLock() {
+  public AvailableSlot getNearestAvailableSlotAndLock() {
     return availableSlotRepository
         .findFirstByIsReservedFalseAndStartTimeAfterOrderByStartTimeAsc(ZonedDateTime.now())
         .map(this::mapToDomain)

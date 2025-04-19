@@ -14,6 +14,7 @@ public enum ErrorEnum {
 
     GENERAL_NOT_FOUND(404101, 404, "error_general_not_found"),
     AVAILABLE_SLOT_NOT_FOUND(404102, 404, "error_available_slot_not_found"),
+    RESERVATION_NOT_FOUND(404102, 404, "error_reservation_not_found"),
 
     GENERAL_ACCESS_DENIED(403101, 403, "error_general_access_denied"),
 
