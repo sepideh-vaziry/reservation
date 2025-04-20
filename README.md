@@ -25,3 +25,7 @@ curl --location 'http://localhost:8080/api/v1/users/authentication' \
     "password": "hashed_password_123"
 }'
 ```
+
+### JMeter Test Result
+
+![JMeter Result](https://github.com/sepideh-vaziry/reservation/blob/develop/files/jmeter-result.png?raw=true))
