@@ -10,6 +10,7 @@
 - **MySQL (Database)**
 - **Liquibase (Database Change Management)**
 
+## API Documentation
 Swagger Docs URL:
 ```
 http://localhost:8080/swagger-ui/index.html
